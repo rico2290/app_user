@@ -4,11 +4,13 @@ import { FormsModule} from '@angular/forms'
 
 import { UsuariosRoutingModule } from './usuarios-routing.module';
 import { UsuariosFormComponent } from './usuarios-form/usuarios-form.component';
+import { UsuarioslistaComponent } from './usuarioslista/usuarioslista.component';
 
 
 @NgModule({
   declarations: [
-    UsuariosFormComponent
+    UsuariosFormComponent,
+    UsuarioslistaComponent
   ],
   imports: [
     CommonModule,

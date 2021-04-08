@@ -1,29 +1,42 @@
 <h1 class="mt-4">Usuários</h1>
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Cadastro</li>
+    <li class="breadcrumb-item active">{{ usuario.id ? 'Edição' : 'Cadastro de usuario' }}</li>
 </ol>
-<div > <!--class="container"-->
+<div  class="mt-4"> <!--class="container"-->
+    
     <form #usuarioForm="ngForm" (ngSubmit)="onSubmit()">
-        <div class="row">
+        <div class="row ">
            
-                <div class="col-md-12">
-                    <div class="alert alert-success" role="alert" *ngIf="success == true">
-                        Cadastro feito com sucesso!
-                      </div>
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert" *ngIf="success == true">
+                    Cadastro salvo/atualizado com sucesso!
+                </div>
+                
+                <div class="alert alert-danger" role="alert" *ngIf="errors !== ''"> 
+                    {{ errors }}
+                </div>
+                    <!--  
+                    
+                <div class="alert alert-danger" role="alert" *ngFor="let error of listError | keyvalue ">
+
+                    {{error.value | json}}
+                </div>
+                -->
+                    
              
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" *ngIf="usuario.id">
                 <div class="form-group">
                     <label>Id:</label>
                     <input type="text" class="form-control" disabled="true" 
                     [ngModel]="usuario.id" name="id" />
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" *ngIf="usuario.createdAt">
                 <div class="form-group">
                     <label>Data Cadastro:</label>
                     <input type="text" class="form-control" disabled="true"
-                        [ngModel]="usuario.dataCadastro" name="dataCadastro" />
+                        [ngModel]="usuario.createdAt" name="createdAt" />
                 </div>
             </div>
         </div>
@@ -62,12 +75,19 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-success" >
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success" *ngIf="!usuario.id">
                     <i class="fa fa-save"></i> Salvar 
                 </button>
+                <button type="submit" class="btn btn-primary" *ngIf="usuario.id">
+                    <i class="fa fa-sync-alt"></i> Atualizar 
+                </button>
+
+                <button type="button" class="btn btn-danger ml-1"  (click)="voltarParaListar()">
+                    <i class="fa fa-arrow-alt-circle-left"></i> voltar 
+                </button>
             </div>
-        </div>
+        </div>       
         
     </form>
 </div>

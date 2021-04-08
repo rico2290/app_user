@@ -4,5 +4,5 @@ export class Usuario {
     email!: string;
     cidade!: string;
     endereco!: string;
-    dataCadastro!: string;
+    createdAt!: string;
 }
