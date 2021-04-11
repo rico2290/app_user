@@ -15,9 +15,8 @@ export class UsuariosFormComponent implements OnInit {
   usuario!: Usuario;
   success: boolean = false;
   errors: string = '' ;
-  listError: [] =[];
+  listError: any =[];
   id!: number;
-  intervalo: number = 0;
   
   constructor(
     private service: UsuariosService, 
@@ -28,7 +27,6 @@ export class UsuariosFormComponent implements OnInit {
   
   ngOnInit(): void {
     
-    let snap = this.activatedRoute.snapshot
     let params : Observable<Params> = this.activatedRoute.params
     params.subscribe(urlParams =>{
       this.id = urlParams['id'];
@@ -38,11 +36,12 @@ export class UsuariosFormComponent implements OnInit {
         .subscribe(response => this.usuario = response,
           errorResponse => this.usuario = new Usuario()
           )
-        
-      }
-    })
-
+          
+        }
+      })
+      
     /* 
+    let snap = this.activatedRoute.snapshot
     if (snap.params && snap.params.id) {
       this.id = snap.params.id
       this.service
@@ -50,14 +49,23 @@ export class UsuariosFormComponent implements OnInit {
       .subscribe(response => this.usuario = response,
         errorResponse => this.usuario = new Usuario()
         )
-    } */
+    } 
+    */
     
 
   }
 
-/*   setSuccess(){
-    this.success = !this.success;
-  } */
+  setSuccess(){
+    setTimeout(() => {
+      this.success = !this.success;
+    },2000)
+  }
+
+  setErrors(){
+    setTimeout(() => {
+      this.errors = '';
+    },2000)
+  }
 
 
   voltarParaListar(){
@@ -70,25 +78,34 @@ export class UsuariosFormComponent implements OnInit {
         this.success = true;
         this.errors = ''; 
         this.usuario = respoense
-      }, errorResponse =>{
-        this.success = false;
-        console.log(errorResponse.error);
-        //this.listError = errorResponse.error.fieldProblem;
-        this.errors  = (errorResponse.error.title);
-      })
-
-    } else {
-      
-      this.service.salvar(this.usuario)
-      .subscribe( respoense => {
-        this.success = true;
-        this.errors = ''; 
-        this.usuario = respoense
+        this.setSuccess();
       }, errorResponse =>{
         this.success = false;
         console.log(errorResponse.error);
         this.listError = errorResponse.error.fieldProblem;
         this.errors  = (errorResponse.error.title);
+        
+        this.setErrors();
+      })
+    } else {
+      this.listError = []; 
+      this.service.salvar(this.usuario)
+      .subscribe( respoense => {
+        this.success = true;
+        this.listError = []; 
+        this.usuario = respoense
+        this.setSuccess();
+        this.ngOnInit()
+      }, errorResponse =>{
+        this.success = false;
+        this.setErrors();
+        
+        for (const key in errorResponse.error.fieldProblem) {
+          this.listError[this.listError.length] = (errorResponse.error.fieldProblem[key].name).toString() +' '+(errorResponse.error.fieldProblem[key].message)
+        }
+        //this.listError = this.listError; //remover duplicatas
+
+
       })
     }
   }

@@ -41,4 +41,10 @@ export class UsuariosService {
   getUsuarioById(id: number): Observable<Usuario> {
    return this.http.get<any>(`http://localhost:8081/api-users/api/user/${id}`);
  }  
+
+ deletar(usuario: Usuario): Observable<any> {
+  return this.http.delete<any>(`http://localhost:8081/api-users/api/user/${usuario.id}`);
+} 
+
+
 }

@@ -12,8 +12,8 @@
                     Cadastro salvo/atualizado com sucesso!
                 </div>
                 
-                <div class="alert alert-danger" role="alert" *ngIf="errors !== ''"> 
-                    {{ errors }}
+                <div class="alert alert-danger" role="alert" *ngFor="let error of listError"> 
+                    {{ error }}
                 </div>
                     <!--  
                     
@@ -46,7 +46,7 @@
                 <div class="form-group">
                     <label>Nome: *</label>
                     <input type="text" class="form-control" 
-                        [(ngModel)]="usuario.name"  name="name" />
+                        [(ngModel)]="usuario.nome"  name="nome" />
                 </div>
             </div>
             <div class="col-md-6">
